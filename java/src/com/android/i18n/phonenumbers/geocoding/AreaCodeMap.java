@@ -118,7 +118,13 @@ public class AreaCodeMap implements Externalizable {
     // Read the area code map storage strategy flag.
     boolean useFlyweightMapStorage = objectInput.readBoolean();
     if (useFlyweightMapStorage) {
-      areaCodeMapStorage = new FlyweightMapStorage();
+      // Engle, 使用FlyweightMapStorageExt加快读取速度
+      boolean useExt = true;
+      if (useExt) {
+          areaCodeMapStorage = new FlyweightMapStorageExt();
+      } else {
+          areaCodeMapStorage = new FlyweightMapStorage();
+      }
     } else {
       areaCodeMapStorage = new DefaultMapStorage();
     }
